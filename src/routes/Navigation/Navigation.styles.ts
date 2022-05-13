@@ -14,3 +14,15 @@ export const LogoContainer = styled(Link)`
   width: 70px;
   padding: 10px;
 `
+export const NavLinks = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+
+export const NavLink = styled(Link)`
+  padding: 10px 15px;
+  cursor: pointer;
+`

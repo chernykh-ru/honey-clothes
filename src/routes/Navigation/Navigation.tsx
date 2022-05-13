@@ -1,7 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import { ReactComponent as HoneyLogo } from '../../assets/honey.svg'
-import { NavigationContainer, LogoContainer } from './Navigation.styles'
+import CartIcon from '../../components/CartIcon/CartIcon'
+import {
+  NavigationContainer,
+  LogoContainer,
+  NavLinks,
+  NavLink,
+} from './Navigation.styles'
 
 const Navigation = () => {
   return (
@@ -10,6 +16,17 @@ const Navigation = () => {
         <LogoContainer to='/'>
           <HoneyLogo />
         </LogoContainer>
+
+        <NavLinks>
+          <NavLink to='/shop'>SHOP</NavLink>
+
+          {false ? (
+            <NavLink as='span'>SIGN OUT</NavLink>
+          ) : (
+            <NavLink to='/auth'>SIGN IN</NavLink>
+          )}
+          <CartIcon />
+        </NavLinks>
       </NavigationContainer>
       <Outlet />
     </>
