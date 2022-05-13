@@ -7,31 +7,31 @@ const categories: ICategory[] = [
   {
     id: 1,
     title: 'hats',
-    imageUrl: 'https://i.ibb.co/cvpntL1/hats.png',
+    imageUrl: 'https://i.ibb.co/jb8N2V0/hats.png',
     route: 'shop/hats',
   },
   {
     id: 2,
     title: 'jackets',
-    imageUrl: 'https://i.ibb.co/px2tCc3/jackets.png',
+    imageUrl: 'https://i.ibb.co/tbxcLJJ/jackets.png',
     route: 'shop/jackets',
   },
   {
     id: 3,
     title: 'sneakers',
-    imageUrl: 'https://i.ibb.co/0jqHpnp/sneakers.png',
+    imageUrl: 'https://i.ibb.co/MgyH3YK/sneakers.png',
     route: 'shop/sneakers',
   },
   {
     id: 4,
     title: 'womens',
-    imageUrl: 'https://i.ibb.co/GCCdy8t/womens.png',
+    imageUrl: 'https://i.ibb.co/pPY6GGV/womens.png',
     route: 'shop/womens',
   },
   {
     id: 5,
     title: 'mens',
-    imageUrl: 'https://i.ibb.co/R70vBrQ/men.png',
+    imageUrl: 'https://i.ibb.co/SvpRYzB/men.png',
     route: 'shop/mens',
   },
 ]

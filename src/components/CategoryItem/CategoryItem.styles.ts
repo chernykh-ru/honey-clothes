@@ -36,7 +36,7 @@ export const CategoryItemContainer = styled.div`
   flex: 1 1 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0 7.5px 15px;
   overflow: hidden;
   &:first-child {
