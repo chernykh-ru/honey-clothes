@@ -21,9 +21,9 @@ const Navigation = () => {
           <NavLink to='/shop'>SHOP</NavLink>
 
           {false ? (
-            <NavLink as='span'>SIGN OUT</NavLink>
+            <NavLink as='span'>SIGN&nbsp;OUT</NavLink>
           ) : (
-            <NavLink to='/auth'>SIGN IN</NavLink>
+            <NavLink to='/auth'>SIGN&nbsp;IN</NavLink>
           )}
           <CartIcon />
         </NavLinks>

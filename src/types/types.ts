@@ -4,3 +4,9 @@ export interface ICategory {
   imageUrl: string
   route: string
 }
+
+export interface IUserData {
+  createdAt: Date
+  displayName: string
+  email: string
+}
