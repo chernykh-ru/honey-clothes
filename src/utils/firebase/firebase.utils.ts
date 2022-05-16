@@ -4,6 +4,7 @@ import {
   signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
+  createUserWithEmailAndPassword,
   User,
 } from 'firebase/auth'
 import {
@@ -37,8 +38,13 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider)
 
+export type AdditionalInformation = {
+  displayName?: string
+}
+
 export const createUserDocumentFromAuth = async (
-  userAuth: User
+  userAuth: User,
+  additionalInformation = {} as AdditionalInformation
 ): Promise<void | QueryDocumentSnapshot<IUserData>> => {
   if (!userAuth) return
 
@@ -55,6 +61,7 @@ export const createUserDocumentFromAuth = async (
         displayName,
         email,
         createdAt,
+        ...additionalInformation,
       })
     } catch (error) {
       if (error instanceof Error) {
@@ -64,4 +71,13 @@ export const createUserDocumentFromAuth = async (
   }
 
   return userSnapshot as QueryDocumentSnapshot<IUserData>
+}
+
+export const createAuthUserWithEmailAndPassword = async (
+  email: string,
+  password: string
+) => {
+  if (!email || !password) return
+
+  return await createUserWithEmailAndPassword(auth, email, password)
 }
