@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react'
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   signInAuthUserWithEmailAndPassword,
 } from '../../utils/firebase/firebase.utils'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
@@ -29,8 +28,7 @@ const SignIn = () => {
   }
 
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup()
-    await createUserDocumentFromAuth(user)
+    await signInWithGooglePopup()
   }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
