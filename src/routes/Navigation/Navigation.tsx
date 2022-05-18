@@ -10,11 +10,15 @@ import {
 } from './Navigation.styles'
 import { UserContext } from '../../contexts/user.context'
 import { signOutUser } from '../../utils/firebase/firebase.utils'
+import CartDropdown from '../../components/CartDropdown/CartDropdown'
+import { CartContext } from '../../contexts/cart.context'
 
 const Navigation = () => {
   const {
     state: { currentUser },
   } = useContext(UserContext)
+
+  const { isCartOpen } = useContext(CartContext)
 
   return (
     <>
@@ -35,6 +39,7 @@ const Navigation = () => {
           )}
           <CartIcon />
         </NavLinks>
+        {isCartOpen && <CartDropdown />}
       </NavigationContainer>
       <Outlet />
     </>
