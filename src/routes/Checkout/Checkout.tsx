@@ -4,6 +4,7 @@ import { CartContext } from '../../contexts/cart.context'
 import {
   CheckoutContainer,
   CheckoutHeader,
+  Empty,
   HeaderBlock,
   Total,
 } from './Checkout.styles'
@@ -33,10 +34,14 @@ const Checkout = () => {
       {cartItems.map((cartItem) => (
         <CheckoutItem key={cartItem.id} cartItem={cartItem} />
       ))}
-      <Total>
-        Total: &#8381;
-        {cartTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-      </Total>
+      {cartTotalPrice > 0 ? (
+        <Total>
+          Total: &#8381;
+          {cartTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+        </Total>
+      ) : (
+        <Empty>Your cart is empty</Empty>
+      )}
       {/* PAYMENT */}
     </CheckoutContainer>
   )

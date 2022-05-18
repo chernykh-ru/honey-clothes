@@ -31,3 +31,9 @@ export const Total = styled.span`
   margin-left: auto;
   font-size: 36px;
 `
+
+export const Empty = styled.span`
+  margin-top: 36px;
+  margin-left: auto;
+  font-size: 18px;
+`

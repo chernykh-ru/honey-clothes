@@ -17,6 +17,32 @@ const addCartItem = (cartItems: TCartItem[], productToAdd: ICategoryItem) => {
   return [...cartItems, { ...productToAdd, quantity: 1 }]
 }
 
+const removeCartItem = (
+  cartItems: TCartItem[],
+  productToRemove: ICategoryItem
+) => {
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === productToRemove.id
+  )
+
+  if (existingCartItem && existingCartItem.quantity === 1) {
+    return cartItems.filter((cartItem) => cartItem.id !== productToRemove.id)
+  }
+
+  return cartItems.map((cartItem) =>
+    cartItem.id === productToRemove.id
+      ? { ...cartItem, quantity: cartItem.quantity - 1 }
+      : cartItem
+  )
+}
+
+const clearCartItem = (
+  cartItems: TCartItem[],
+  productToClear: ICategoryItem
+) => {
+  return cartItems.filter((cartItem) => cartItem.id !== productToClear.id)
+}
+
 const contextDefaultValue = {
   isCartOpen: false,
   setIsCartOpen: (state: boolean) => {},
@@ -24,6 +50,8 @@ const contextDefaultValue = {
   addItemToCart: (productToAdd: ICategoryItem) => {},
   cartTotalQuantity: 0,
   cartTotalPrice: 0,
+  removeItemToCart: (productToRemove: ICategoryItem) => {},
+  clearItemFromCart: (productToClear: ICategoryItem) => {},
 }
 
 export const CartContext = createContext(contextDefaultValue)
@@ -58,6 +86,14 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setCartItems(addCartItem(cartItems, productToAdd))
   }
 
+  const removeItemToCart = (productToRemove: ICategoryItem) => {
+    setCartItems(removeCartItem(cartItems, productToRemove))
+  }
+
+  const clearItemFromCart = (productToClear: ICategoryItem) => {
+    setCartItems(clearCartItem(cartItems, productToClear))
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -67,6 +103,8 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
         addItemToCart,
         cartTotalQuantity,
         cartTotalPrice,
+        removeItemToCart,
+        clearItemFromCart,
       }}
     >
       {children}
