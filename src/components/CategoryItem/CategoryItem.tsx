@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { ICategory } from '../../types/types'
+import { ICategoryWithRoute } from '../../types/types'
 import {
   BackgroundImage,
   Body,
@@ -7,7 +7,7 @@ import {
 } from './CategoryItem.styles'
 
 interface ICategoryItemProps {
-  category: ICategory
+  category: ICategoryWithRoute
 }
 
 const CategoryItem: FC<ICategoryItemProps> = ({ category }) => {

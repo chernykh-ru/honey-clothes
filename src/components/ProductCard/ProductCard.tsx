@@ -1,12 +1,12 @@
 import { FC, useContext } from 'react'
 import { CartContext } from '../../contexts/cart.context'
-import { IProducts } from '../../contexts/products.context'
+import { ICategoryItem } from '../../utils/firebase/firebase.utils'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
 
 import { ProductCartContainer, Footer, Name, Price } from './ProductCard.styles'
 
 interface IProductCardProps {
-  product: IProducts
+  product: ICategoryItem
 }
 
 const ProductCard: FC<IProductCardProps> = ({ product }) => {

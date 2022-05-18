@@ -19,6 +19,8 @@ import {
   QueryDocumentSnapshot,
   collection,
   writeBatch,
+  query,
+  getDocs,
 } from 'firebase/firestore'
 import { IUserData } from '../../types/types'
 
@@ -61,6 +63,28 @@ export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
   })
 
   await batch.commit()
+}
+
+export interface ICategoryItem {
+  id: number
+  imageUrl: string
+  name: string
+  price: number
+}
+
+export interface ICategory {
+  title: string
+  items: ICategoryItem[]
+}
+
+export const getCategoriesAndDocuments = async (): Promise<ICategory[]> => {
+  const collectionRef = collection(db, 'categories')
+  const q = query(collectionRef)
+
+  const querySnapshot = await getDocs(q)
+  return querySnapshot.docs.map(
+    (docSnapshot) => docSnapshot.data() as ICategory
+  )
 }
 
 export type AdditionalInformation = {

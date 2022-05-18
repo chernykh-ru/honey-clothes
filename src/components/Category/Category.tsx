@@ -1,9 +1,9 @@
 import React from 'react'
-import { ICategory } from '../../types/types'
+import { ICategoryWithRoute } from '../../types/types'
 import CategoryItem from '../CategoryItem/CategoryItem'
 import { CategoryContainer } from './Category.styles'
 
-const categories: ICategory[] = [
+const categories: ICategoryWithRoute[] = [
   {
     id: 1,
     title: 'hats',
