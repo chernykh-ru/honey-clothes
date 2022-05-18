@@ -23,6 +23,7 @@ const contextDefaultValue = {
   cartItems: [] as TCartItem[],
   addItemToCart: (productToAdd: ICategoryItem) => {},
   cartTotalQuantity: 0,
+  cartTotalPrice: 0,
 }
 
 export const CartContext = createContext(contextDefaultValue)
@@ -33,6 +34,9 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [cartTotalQuantity, setCartTotalQuantity] = useState(
     contextDefaultValue.cartTotalQuantity
   )
+  const [cartTotalPrice, setCartTotalPrice] = useState(
+    contextDefaultValue.cartTotalPrice
+  )
 
   useEffect(() => {
     const totalQuantity = cartItems.reduce(
@@ -40,6 +44,14 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
       0
     )
     setCartTotalQuantity(totalQuantity)
+  }, [cartItems])
+
+  useEffect(() => {
+    const totalPrice = cartItems.reduce(
+      (total, cartItem) => cartItem.price * cartItem.quantity + total,
+      0
+    )
+    setCartTotalPrice(totalPrice)
   }, [cartItems])
 
   const addItemToCart = (productToAdd: ICategoryItem) => {
@@ -54,6 +66,7 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
         cartItems,
         addItemToCart,
         cartTotalQuantity,
+        cartTotalPrice,
       }}
     >
       {children}
