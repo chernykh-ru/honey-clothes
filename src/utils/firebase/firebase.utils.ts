@@ -17,6 +17,8 @@ import {
   getDoc,
   setDoc,
   QueryDocumentSnapshot,
+  collection,
+  writeBatch,
 } from 'firebase/firestore'
 import { IUserData } from '../../types/types'
 
@@ -41,6 +43,25 @@ googleProvider.setCustomParameters({
 export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider)
 export const signInWithGoogleRedirect = () =>
   signInWithRedirect(auth, googleProvider)
+
+export type ObjectToAdd = {
+  title: string
+}
+
+export const addCollectionAndDocuments = async <T extends ObjectToAdd>(
+  collectionKey: string,
+  objectsToAdd: T[]
+): Promise<void> => {
+  const collectionRef = collection(db, collectionKey)
+  const batch = writeBatch(db)
+
+  objectsToAdd.forEach((object) => {
+    const docRef = doc(collectionRef, object.title.toLowerCase())
+    batch.set(docRef, object)
+  })
+
+  await batch.commit()
+}
 
 export type AdditionalInformation = {
   displayName?: string
