@@ -9,7 +9,7 @@ export interface ICategoryItem {
 }
 
 export type TCartItem = ICategoryItem & {
-  quantity?: number
+  quantity: number
 }
 
 export interface ICartItemProps {
@@ -17,14 +17,14 @@ export interface ICartItemProps {
 }
 
 const CartItem: FC<ICartItemProps> = ({ cartItem }) => {
-  const { name, imageUrl, price, quantity = 1 } = cartItem
+  const { name, imageUrl, price, quantity } = cartItem
   return (
     <CartItemContainer>
       <img src={imageUrl} alt={`${name}`} />
       <ItemDetails>
         <span>{name}</span>
         <span>
-          {quantity} x ${price}
+          {quantity} x &#8381;{price}
         </span>
       </ItemDetails>
     </CartItemContainer>

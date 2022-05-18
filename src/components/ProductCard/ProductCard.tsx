@@ -1,4 +1,5 @@
-import { FC } from 'react'
+import { FC, useContext } from 'react'
+import { CartContext } from '../../contexts/cart.context'
 import { IProducts } from '../../contexts/products.context'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
 
@@ -11,14 +12,25 @@ interface IProductCardProps {
 const ProductCard: FC<IProductCardProps> = ({ product }) => {
   const { name, price, imageUrl } = product
 
+  const { addItemToCart } = useContext(CartContext)
+
+  const addProductToCart = () => {
+    addItemToCart(product)
+  }
+
   return (
     <ProductCartContainer>
       <img src={imageUrl} alt={`${name}`} />
       <Footer>
         <Name>{name}</Name>
-        <Price>${price}</Price>
+        <Price>&#8381;{price}</Price>
       </Footer>
-      <Button buttonType={BUTTON_TYPE_CLASSES.inverted}>Add to card</Button>
+      <Button
+        buttonType={BUTTON_TYPE_CLASSES.inverted}
+        onClick={addProductToCart}
+      >
+        Add to card
+      </Button>
     </ProductCartContainer>
   )
 }

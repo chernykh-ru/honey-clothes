@@ -1,19 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Button from '../Button/Button'
 import {
   CartDropdownContainer,
   CartItems,
   EmptyMessage,
 } from './CartDropdown.styles'
-import DummyData from '../../assets/shop-dummy-data.json'
 import CartItem from '../CartItem/CartItem'
+import { CartContext } from '../../contexts/cart.context'
 
 const CartDropdown = () => {
+  const { cartItems } = useContext(CartContext)
   return (
     <CartDropdownContainer>
       <CartItems>
-        {DummyData.length ? (
-          DummyData.map((item) => <CartItem key={item.id} cartItem={item} />)
+        {cartItems.length ? (
+          cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
         ) : (
           <EmptyMessage>Your cart is empty</EmptyMessage>
         )}
