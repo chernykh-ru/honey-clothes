@@ -1,4 +1,4 @@
-# [Honey Clothes](https://master--honey-clothes.netlify.app/)
+# [Honey Clothes](https://honey-clothes.netlify.app/)
 
 in dev...
 
