@@ -56,4 +56,10 @@ export const DirectoryItemContainer = styled(Link)`
       opacity: 0.9;
     }
   }
+  @media (max-width: 768px) {
+    min-width: 40%;
+  }
+  @media (max-width: 520px) {
+    min-width: 60%;
+  }
 `
