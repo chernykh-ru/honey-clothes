@@ -37,7 +37,6 @@ const SignIn = () => {
       closeButton: false,
       transition: Bounce,
       draggablePercent: 60,
-      delay: 500,
       autoClose: 2000,
     })
     navigate('/')
@@ -53,7 +52,6 @@ const SignIn = () => {
         closeButton: false,
         transition: Bounce,
         draggablePercent: 60,
-        delay: 500,
         autoClose: 2000,
       })
       navigate('/')
