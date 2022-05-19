@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IDirectoryWithRoute } from '../../types/types'
 import {
   BackgroundImage,
@@ -13,9 +13,14 @@ interface ICategoryItemProps {
 
 const DirectoryItem: FC<ICategoryItemProps> = ({ directory }) => {
   const { imageUrl, title, route } = directory
+  const navigate = useNavigate()
+
+  const handleToNavigate = () => {
+    navigate(route)
+  }
 
   return (
-    <DirectoryItemContainer to={route}>
+    <DirectoryItemContainer onClick={handleToNavigate}>
       <BackgroundImage imageUrl={imageUrl} />
       <Body>
         <h2>{title}</h2>
