@@ -7,6 +7,7 @@ import {
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
 import FormInput from '../Input/Input'
 import { ButtonsContainer, SignInContainer } from './SignIn.styles'
+import { toast, Bounce } from 'react-toastify'
 
 const defaultFormFields = {
   email: '',
@@ -32,6 +33,13 @@ const SignIn = () => {
 
   const signInWithGoogle = async () => {
     await signInWithGooglePopup()
+    toast.success('Happy to have you back', {
+      closeButton: false,
+      transition: Bounce,
+      draggablePercent: 60,
+      delay: 500,
+      autoClose: 2000,
+    })
     navigate('/')
   }
 
@@ -41,6 +49,13 @@ const SignIn = () => {
     try {
       await signInAuthUserWithEmailAndPassword(email, password)
       resetFormFields()
+      toast.success('Happy to have you back', {
+        closeButton: false,
+        transition: Bounce,
+        draggablePercent: 60,
+        delay: 500,
+        autoClose: 2000,
+      })
       navigate('/')
     } catch (error) {
       if (error instanceof Error) {
