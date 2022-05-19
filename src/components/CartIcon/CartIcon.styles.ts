@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const CartIconContainer = styled.div`
   width: 45px;
@@ -11,6 +11,15 @@ export const CartIconContainer = styled.div`
   svg {
     width: 24px;
     height: 24px;
+  }
+  &:hover {
+    svg {
+      g {
+        path {
+          fill: #ec8235 !important;
+        }
+      }
+    }
   }
 `
 

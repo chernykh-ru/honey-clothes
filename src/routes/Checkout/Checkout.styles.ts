@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const CheckoutContainer = styled.div`
   max-width: 90%;

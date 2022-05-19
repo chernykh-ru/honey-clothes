@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 export const ProductCartContainer = styled.div`
   width: 100%;
@@ -17,7 +17,7 @@ export const ProductCartContainer = styled.div`
     width: 80%;
     opacity: 0.7;
     position: absolute;
-    top: 255px;
+    bottom: 55px;
     display: none;
   }
   &:hover {
@@ -40,10 +40,10 @@ export const Footer = styled.div`
 `
 
 export const Name = styled.span`
-  width: 80%;
+  max-width: 65%;
   margin-bottom: 15px;
 `
 
 export const Price = styled.span`
-  width: 20%;
+  max-width: 35%;
 `
