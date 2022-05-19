@@ -1,4 +1,4 @@
-export interface ICategoryWithRoute {
+export interface IDirectoryWithRoute {
   id: number
   title: string
   imageUrl: string
