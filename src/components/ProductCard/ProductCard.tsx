@@ -2,6 +2,7 @@ import { FC, useContext } from 'react'
 import { CartContext } from '../../contexts/cart.context'
 import { ICategoryItem } from '../../utils/firebase/firebase.utils'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
+import { toast, Flip } from 'react-toastify'
 
 import { ProductCartContainer, Footer, Name, Price } from './ProductCard.styles'
 
@@ -16,6 +17,11 @@ const ProductCard: FC<IProductCardProps> = ({ product }) => {
 
   const addProductToCart = () => {
     addItemToCart(product)
+    toast.success('Product added to cart', {
+      closeButton: false,
+      transition: Flip,
+      draggablePercent: 60,
+    })
   }
 
   return (

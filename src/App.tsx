@@ -6,6 +6,8 @@ import Auth from './routes/Auth/Auth'
 import { NotFound } from './routes/NotFound/NotFound'
 import Shop from './routes/Shop/Shop'
 import Checkout from './routes/Checkout/Checkout'
+import 'react-toastify/dist/ReactToastify.css'
+import { StyledToastContainer } from './App.styles'
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <StyledToastContainer limit={3} autoClose={1200} />
     </>
   )
 }
