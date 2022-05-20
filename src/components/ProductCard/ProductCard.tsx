@@ -21,6 +21,7 @@ const ProductCard: FC<IProductCardProps> = ({ product }) => {
       closeButton: false,
       transition: Flip,
       draggablePercent: 60,
+      toastId: 'Product added to cart',
     })
   }
 
