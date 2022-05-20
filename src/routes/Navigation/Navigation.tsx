@@ -12,6 +12,7 @@ import { IUserContext, UserContext } from '../../contexts/user.context'
 import { signOutUser } from '../../utils/firebase/firebase.utils'
 import CartDropdown from '../../components/CartDropdown/CartDropdown'
 import { CartContext, ICartContext } from '../../contexts/cart.context'
+import Footer from '../Footer/Footer'
 
 const Navigation = () => {
   const { currentUser } = useContext(UserContext) as IUserContext
@@ -40,6 +41,7 @@ const Navigation = () => {
         {isCartOpen && <CartDropdown />}
       </NavigationContainer>
       <Outlet />
+      <Footer />
     </>
   )
 }
