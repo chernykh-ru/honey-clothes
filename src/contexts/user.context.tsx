@@ -1,43 +1,74 @@
 import { User } from 'firebase/auth'
-import React, { createContext, FC, ReactNode, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  FC,
+  ReactNode,
+  useEffect,
+  useReducer,
+} from 'react'
 import {
   createUserDocumentFromAuth,
   onAuthStateChangedListener,
 } from '../utils/firebase/firebase.utils'
+import { createAction } from '../utils/reducer/reducer.utils'
 
-type ContextState = { currentUser: User | null }
-
-const contextDefaultValue = {
-  state: { currentUser: null } as {
-    currentUser: User | null
-  },
-  setState: (state: ContextState) => {},
+export enum ActionCurrentUser {
+  SetCurrentUser = 'SET_CURRENT_USER',
 }
 
-export const UserContext = createContext(contextDefaultValue)
+export interface ActionSetCurrentUser {
+  type: ActionCurrentUser.SetCurrentUser
+  payload: User | null
+}
+
+export type Action = ActionSetCurrentUser
+export interface IState {
+  currentUser: User | null
+}
+
+export interface IUserContext extends IState {
+  dispatch: React.Dispatch<Action>
+}
+
+const userReducer = (state: IState, action: Action) => {
+  const { type, payload } = action
+
+  switch (type) {
+    case ActionCurrentUser.SetCurrentUser:
+      return {
+        ...state,
+        currentUser: payload,
+      }
+    default:
+      return state
+  }
+}
+
+export const UserContext = createContext<IUserContext | null>(null)
 
 export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  // TODO
-  // Consider to replace useState by useReducer and pass
-  // the dispatch function down to components.
-  // This will provide better encapsulation,
-  // as the state manipulation logic is now centralized in a pure reducer
-  // and child components cannot manipulate it directly anymore via setState.
-  const [state, setState] = useState(contextDefaultValue.state)
+  const initialState: IState = {
+    currentUser: null,
+  }
+
+  const [{ currentUser }, dispatch] = useReducer(userReducer, initialState)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user)
+        dispatch(createAction(ActionCurrentUser.SetCurrentUser, user))
       }
-      setState({ currentUser: user })
+      if (!user) {
+        dispatch(createAction(ActionCurrentUser.SetCurrentUser, null))
+      }
     })
 
     return unsubscribe
   }, [])
 
   return (
-    <UserContext.Provider value={{ state, setState }}>
+    <UserContext.Provider value={{ currentUser, dispatch }}>
       {children}
     </UserContext.Provider>
   )

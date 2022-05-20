@@ -8,15 +8,13 @@ import {
   NavLinks,
   NavLink,
 } from './Navigation.styles'
-import { UserContext } from '../../contexts/user.context'
+import { IUserContext, UserContext } from '../../contexts/user.context'
 import { signOutUser } from '../../utils/firebase/firebase.utils'
 import CartDropdown from '../../components/CartDropdown/CartDropdown'
 import { CartContext } from '../../contexts/cart.context'
 
 const Navigation = () => {
-  const {
-    state: { currentUser },
-  } = useContext(UserContext)
+  const { currentUser } = useContext(UserContext) as IUserContext
 
   const { isCartOpen } = useContext(CartContext)
 
