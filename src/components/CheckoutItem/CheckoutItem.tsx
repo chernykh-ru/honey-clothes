@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react'
-import { CartContext } from '../../contexts/cart.context'
+import { CartContext, ICartContext } from '../../contexts/cart.context'
 import { TCartItem } from '../CartItem/CartItem'
 import {
   Arrow,
@@ -18,8 +18,9 @@ type CheckoutItemProps = {
 const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem
 
-  const { addItemToCart, removeItemToCart, clearItemFromCart } =
-    useContext(CartContext)
+  const { addItemToCart, removeItemToCart, clearItemFromCart } = useContext(
+    CartContext
+  ) as ICartContext
 
   const increaseItemToCart = () => {
     addItemToCart(cartItem)

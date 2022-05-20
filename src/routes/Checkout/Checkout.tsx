@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import CheckoutItem from '../../components/CheckoutItem/CheckoutItem'
-import { CartContext } from '../../contexts/cart.context'
+import { CartContext, ICartContext } from '../../contexts/cart.context'
 import {
   CheckoutContainer,
   CheckoutHeader,
@@ -10,7 +10,7 @@ import {
 } from './Checkout.styles'
 
 const Checkout = () => {
-  const { cartItems, cartTotalPrice } = useContext(CartContext)
+  const { cartItems, cartTotalPrice } = useContext(CartContext) as ICartContext
 
   return (
     <CheckoutContainer>

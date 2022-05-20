@@ -1,5 +1,5 @@
 import { FC, useContext } from 'react'
-import { CartContext } from '../../contexts/cart.context'
+import { CartContext, ICartContext } from '../../contexts/cart.context'
 import { ICategoryItem } from '../../utils/firebase/firebase.utils'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
 import { toast, Flip } from 'react-toastify'
@@ -13,7 +13,7 @@ interface IProductCardProps {
 const ProductCard: FC<IProductCardProps> = ({ product }) => {
   const { name, price, imageUrl } = product
 
-  const { addItemToCart } = useContext(CartContext)
+  const { addItemToCart } = useContext(CartContext) as ICartContext
 
   const addProductToCart = () => {
     addItemToCart(product)

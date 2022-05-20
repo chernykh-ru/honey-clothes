@@ -6,11 +6,11 @@ import {
   EmptyMessage,
 } from './CartDropdown.styles'
 import CartItem from '../CartItem/CartItem'
-import { CartContext } from '../../contexts/cart.context'
+import { CartContext, ICartContext } from '../../contexts/cart.context'
 import { useNavigate } from 'react-router-dom'
 
 const CartDropdown = () => {
-  const { cartItems, setIsCartOpen } = useContext(CartContext)
+  const { cartItems, setIsCartOpen } = useContext(CartContext) as ICartContext
   const navigate = useNavigate()
 
   const handleCheckout = () => {

@@ -1,5 +1,12 @@
-import React, { createContext, FC, ReactNode, useEffect, useState } from 'react'
+import React, {
+  createContext,
+  FC,
+  ReactNode,
+  useEffect,
+  useReducer,
+} from 'react'
 import { ICategoryItem, TCartItem } from '../components/CartItem/CartItem'
+import { createAction } from '../utils/reducer/reducer.utils'
 
 const addCartItem = (cartItems: TCartItem[], productToAdd: ICategoryItem) => {
   const existingCartItem = cartItems.find(
@@ -43,55 +50,138 @@ const clearCartItem = (
   return cartItems.filter((cartItem) => cartItem.id !== productToClear.id)
 }
 
-const contextDefaultValue = {
-  isCartOpen: false,
-  setIsCartOpen: (state: boolean) => {},
-  cartItems: [] as TCartItem[],
-  addItemToCart: (productToAdd: ICategoryItem) => {},
-  cartTotalQuantity: 0,
-  cartTotalPrice: 0,
-  removeItemToCart: (productToRemove: ICategoryItem) => {},
-  clearItemFromCart: (productToClear: ICategoryItem) => {},
+export enum ActionCart {
+  ToggleCartCheckout = 'TOGGLE_CART_CHECKOUT',
+  TotalQuantity = 'TOTAL_QUANTITY',
+  TotalPrice = 'TOTAL_PRICE',
+  SetCartItems = 'SET_CART_ITEMS',
 }
 
-export const CartContext = createContext(contextDefaultValue)
+export interface ActionToggleCart {
+  type: ActionCart.ToggleCartCheckout
+}
+export interface ActionTotalQuantity {
+  type: ActionCart.TotalQuantity
+  payload: number
+}
+export interface ActionTotalPrice {
+  type: ActionCart.TotalPrice
+  payload: number
+}
+export interface ActionSetCartItems {
+  type: ActionCart.SetCartItems
+  payload: TCartItem[]
+}
+
+export type Action =
+  | ActionToggleCart
+  | ActionTotalQuantity
+  | ActionTotalPrice
+  | ActionSetCartItems
+
+export interface IState {
+  isCartOpen: boolean
+  cartItems: TCartItem[]
+  cartTotalQuantity: number
+  cartTotalPrice: number
+}
+
+export interface ICartContext extends IState {
+  dispatch: React.Dispatch<Action>
+  setIsCartOpen: (state: boolean) => void
+  addItemToCart: (productToAdd: ICategoryItem) => void
+  removeItemToCart: (productToRemove: ICategoryItem) => void
+  clearItemFromCart: (productToClear: ICategoryItem) => void
+}
+
+const cartReducer = (state: IState, action: Action) => {
+  switch (action.type) {
+    case ActionCart.ToggleCartCheckout:
+      return {
+        ...state,
+        isCartOpen: !state.isCartOpen,
+      }
+    case ActionCart.SetCartItems:
+      return {
+        ...state,
+        cartItems: action.payload,
+      }
+    case ActionCart.TotalQuantity:
+      return {
+        ...state,
+        cartTotalQuantity: action.payload,
+      }
+    case ActionCart.TotalPrice:
+      return {
+        ...state,
+        cartTotalPrice: action.payload,
+      }
+    default:
+      return state
+  }
+}
+
+export const CartContext = createContext<ICartContext | null>(null)
 
 export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(contextDefaultValue.isCartOpen)
-  const [cartItems, setCartItems] = useState(contextDefaultValue.cartItems)
-  const [cartTotalQuantity, setCartTotalQuantity] = useState(
-    contextDefaultValue.cartTotalQuantity
-  )
-  const [cartTotalPrice, setCartTotalPrice] = useState(
-    contextDefaultValue.cartTotalPrice
-  )
+  const initialState: IState = {
+    isCartOpen: false,
+    cartItems: [],
+    cartTotalQuantity: 0,
+    cartTotalPrice: 0,
+  }
+
+  const [
+    { isCartOpen, cartItems, cartTotalPrice, cartTotalQuantity },
+    dispatch,
+  ] = useReducer(cartReducer, initialState)
 
   useEffect(() => {
     const totalQuantity = cartItems.reduce(
-      (total, cartItem) => cartItem.quantity + total,
+      (total: number, cartItem: TCartItem) => cartItem.quantity + total,
       0
     )
-    setCartTotalQuantity(totalQuantity)
+    dispatch(createAction(ActionCart.TotalQuantity, totalQuantity))
   }, [cartItems])
 
   useEffect(() => {
     const totalPrice = cartItems.reduce(
-      (total, cartItem) => cartItem.price * cartItem.quantity + total,
+      (total: number, cartItem: TCartItem) =>
+        cartItem.price * cartItem.quantity + total,
       0
     )
-    setCartTotalPrice(totalPrice)
+    dispatch(createAction(ActionCart.TotalPrice, totalPrice))
   }, [cartItems])
 
+  const setIsCartOpen = () => {
+    dispatch(createAction(ActionCart.ToggleCartCheckout))
+  }
+
   const addItemToCart = (productToAdd: ICategoryItem) => {
-    setCartItems(addCartItem(cartItems, productToAdd))
+    dispatch(
+      createAction(
+        ActionCart.SetCartItems,
+        addCartItem(cartItems, productToAdd)
+      )
+    )
   }
 
   const removeItemToCart = (productToRemove: ICategoryItem) => {
-    setCartItems(removeCartItem(cartItems, productToRemove))
+    dispatch(
+      createAction(
+        ActionCart.SetCartItems,
+        removeCartItem(cartItems, productToRemove)
+      )
+    )
   }
 
   const clearItemFromCart = (productToClear: ICategoryItem) => {
-    setCartItems(clearCartItem(cartItems, productToClear))
+    dispatch(
+      createAction(
+        ActionCart.SetCartItems,
+        clearCartItem(cartItems, productToClear)
+      )
+    )
   }
 
   return (
@@ -105,6 +195,7 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
         cartTotalPrice,
         removeItemToCart,
         clearItemFromCart,
+        dispatch,
       }}
     >
       {children}
