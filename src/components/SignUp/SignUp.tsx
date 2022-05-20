@@ -6,6 +6,8 @@ import {
 import Button from '../Button/Button'
 import FormInput from '../Input/Input'
 import { SignUpContainer } from './SignUp.styles'
+import { toast, Bounce } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const defaultFormFields = {
   displayName: '',
@@ -17,6 +19,8 @@ const defaultFormFields = {
 const SignUp = () => {
   const [formFields, setFormFields] = useState(defaultFormFields)
   const { displayName, email, password, confirmPassword } = formFields
+
+  const navigate = useNavigate()
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields)
@@ -33,7 +37,12 @@ const SignUp = () => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      alert('passwords do not match')
+      toast.error('Passwords do not match', {
+        closeButton: false,
+        transition: Bounce,
+        draggablePercent: 60,
+        autoClose: 2000,
+      })
       return
     }
 
@@ -46,10 +55,22 @@ const SignUp = () => {
         const { user } = userCredential
         createUserDocumentFromAuth(user, { displayName })
         resetFormFields()
+        toast.success('Welcome to see you', {
+          closeButton: false,
+          transition: Bounce,
+          draggablePercent: 60,
+          autoClose: 2000,
+        })
+        navigate('/')
       }
     } catch (error) {
       if (error instanceof Error) {
-        console.log('Something went wrong with registration', error.message)
+        toast.error('Something went wrong with registration', {
+          closeButton: false,
+          transition: Bounce,
+          draggablePercent: 60,
+          autoClose: 2000,
+        })
       }
     }
   }

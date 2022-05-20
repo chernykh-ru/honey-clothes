@@ -57,7 +57,12 @@ const SignIn = () => {
       navigate('/')
     } catch (error) {
       if (error instanceof Error) {
-        console.log('user sign in failed', error)
+        toast.error('Bad User Credentials', {
+          closeButton: false,
+          transition: Bounce,
+          draggablePercent: 60,
+          autoClose: 2000,
+        })
       }
     }
   }
