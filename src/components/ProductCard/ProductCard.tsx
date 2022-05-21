@@ -1,10 +1,10 @@
-import { FC, useContext } from 'react'
-import { CartContext, ICartContext } from '../../contexts/cart.context'
+import { FC } from 'react'
 import { ICategoryItem } from '../../utils/firebase/firebase.utils'
 import Button, { BUTTON_TYPE_CLASSES } from '../Button/Button'
 import { toast, Flip } from 'react-toastify'
-
 import { ProductCartContainer, Footer, Name, Price } from './ProductCard.styles'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { addItemToCart, setCartItems } from '../../store/reducers/cartSlice'
 
 interface IProductCardProps {
   product: ICategoryItem
@@ -12,11 +12,11 @@ interface IProductCardProps {
 
 const ProductCard: FC<IProductCardProps> = ({ product }) => {
   const { name, price, imageUrl } = product
-
-  const { addItemToCart } = useContext(CartContext) as ICartContext
+  const dispatch = useAppDispatch()
+  const { cartItems } = useAppSelector((state) => state.cart)
 
   const addProductToCart = () => {
-    addItemToCart(product)
+    dispatch(setCartItems(addItemToCart(cartItems, product)))
     toast.success('Product added to cart', {
       closeButton: false,
       transition: Flip,

@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from 'react'
+import React from 'react'
 import CategoryPreview from '../../components/CategoryPreview/CategoryPreview'
-import { CategoriesContext } from '../../contexts/categories.context'
+import { useAppSelector } from '../../hooks/redux'
 
 const CategoriesPreview = () => {
-  const { categoriesMap } = useContext(CategoriesContext)
+  const { categoriesMap } = useAppSelector((state) => state.category)
 
   return (
     <>

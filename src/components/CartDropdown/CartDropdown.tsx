@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Button from '../Button/Button'
 import {
   CartDropdownContainer,
@@ -6,15 +6,17 @@ import {
   EmptyMessage,
 } from './CartDropdown.styles'
 import CartItem from '../CartItem/CartItem'
-import { CartContext, ICartContext } from '../../contexts/cart.context'
 import { useNavigate } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { toggleCartOpen } from '../../store/reducers/cartSlice'
 
 const CartDropdown = () => {
-  const { cartItems, setIsCartOpen } = useContext(CartContext) as ICartContext
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { cartItems } = useAppSelector((state) => state.cart)
 
   const handleCheckout = () => {
-    setIsCartOpen(false)
+    dispatch(toggleCartOpen())
     navigate('/checkout')
   }
 

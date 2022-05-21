@@ -1,5 +1,11 @@
-import React, { FC, useContext } from 'react'
-import { CartContext, ICartContext } from '../../contexts/cart.context'
+import React, { FC } from 'react'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import {
+  addItemToCart,
+  clearItemFromCart,
+  removeItemToCart,
+  setCartItems,
+} from '../../store/reducers/cartSlice'
 import { TCartItem } from '../CartItem/CartItem'
 import {
   Arrow,
@@ -17,21 +23,19 @@ type CheckoutItemProps = {
 
 const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem
-
-  const { addItemToCart, removeItemToCart, clearItemFromCart } = useContext(
-    CartContext
-  ) as ICartContext
+  const dispatch = useAppDispatch()
+  const { cartItems } = useAppSelector((state) => state.cart)
 
   const increaseItemToCart = () => {
-    addItemToCart(cartItem)
+    dispatch(setCartItems(addItemToCart(cartItems, cartItem)))
   }
 
   const decreaseItemFromCart = () => {
-    removeItemToCart(cartItem)
+    dispatch(setCartItems(removeItemToCart(cartItems, cartItem)))
   }
 
   const deleteItemFromCart = () => {
-    clearItemFromCart(cartItem)
+    dispatch(setCartItems(clearItemFromCart(cartItems, cartItem)))
   }
 
   return (

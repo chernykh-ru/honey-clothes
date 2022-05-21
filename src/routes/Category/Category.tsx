@@ -1,10 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard/ProductCard'
-import {
-  CategoriesContext,
-  IProductsContext,
-} from '../../contexts/categories.context'
+import { useAppSelector } from '../../hooks/redux'
 import { ICategoryItem } from '../../utils/firebase/firebase.utils'
 import { CategoryContainer, Title } from './Category.styles'
 
@@ -16,7 +13,7 @@ const Category = () => {
   const { category } = useParams<
     keyof CategoryRouteParams
   >() as CategoryRouteParams
-  const { categoriesMap } = useContext(CategoriesContext) as IProductsContext
+  const { categoriesMap } = useAppSelector((state) => state.category)
   const [products, setProducts] = useState<ICategoryItem[]>([])
 
   useEffect(() => {
