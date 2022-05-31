@@ -10,7 +10,6 @@ import {
 } from './Navigation.styles'
 import {
   createUserDocumentFromAuth,
-  getCategoriesAndDocuments,
   onAuthStateChangedListener,
   signOutUser,
 } from '../../utils/firebase/firebase.utils'
@@ -18,7 +17,7 @@ import CartDropdown from '../../components/CartDropdown/CartDropdown'
 import Footer from '../Footer/Footer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setCurrentUser } from '../../store/reducers/userSlice'
-import { setCategoriesMap } from '../../store/reducers/categorySlice'
+import { fetchCategories } from '../../store/reducers/categorySlice'
 
 const Navigation = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -40,11 +39,7 @@ const Navigation = () => {
   }, [dispatch])
 
   useEffect(() => {
-    const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments()
-      dispatch(setCategoriesMap(categoryMap))
-    }
-    getCategoriesMap()
+    dispatch(fetchCategories())
   }, [dispatch])
 
   return (
