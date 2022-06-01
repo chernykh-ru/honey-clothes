@@ -1,9 +1,12 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit'
 import CartReducer from '../store/reducers/cartSlice'
 import UserReducer from '../store/reducers/userSlice'
-import CategoryReducer from '../store/reducers/categorySlice'
+import CategoryReducer, {
+  categoriesSaga,
+} from '../store/reducers/categorySlice'
 import {
   persistReducer,
+  persistStore,
   PersistConfig,
   FLUSH,
   REHYDRATE,
@@ -13,6 +16,14 @@ import {
   REGISTER,
 } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import saga from 'redux-saga'
+import { all, call } from 'redux-saga/effects'
+
+export function* RootSaga() {
+  yield all([call(categoriesSaga)])
+}
+
+const sagaMiddleware = saga()
 
 const rootReducer = combineReducers({
   cart: CartReducer,
@@ -37,6 +48,7 @@ export const setupStore = () => {
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
+        thunk: false,
         serializableCheck: {
           ignoredActions: [
             'user/setCurrentUser',
@@ -49,9 +61,15 @@ export const setupStore = () => {
           ],
           ignoredPaths: ['user.currentUser'],
         },
-      }),
+      }).concat(sagaMiddleware),
+    devTools: process.env.NODE_ENV !== 'production',
   })
 }
+
+export const store = setupStore()
+export const persistor = persistStore(store)
+
+sagaMiddleware.run(RootSaga)
 
 export type RootState = ReturnType<typeof rootReducer>
 export type AppStore = ReturnType<typeof setupStore>

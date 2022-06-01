@@ -4,12 +4,8 @@ import './index.css'
 import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { setupStore } from './store/store'
-import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
-
-const store = setupStore()
-const persistor = persistStore(store)
+import { persistor, store } from './store/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(

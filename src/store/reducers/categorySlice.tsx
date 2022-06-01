@@ -1,8 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import {
   getCategoriesAndDocuments,
   ICategory,
 } from '../../utils/firebase/firebase.utils'
+
+import { takeLatest, all, call, put } from 'redux-saga/effects'
 
 export interface ICategoriesState {
   categoriesMap: ICategory[]
@@ -10,27 +12,30 @@ export interface ICategoriesState {
   error: string
 }
 
+export function* fetchCategoriesAsync() {
+  try {
+    const categoriesArray: ICategory[] = yield call(getCategoriesAndDocuments)
+    yield put(fetchCategoriesSuccess(categoriesArray))
+  } catch (error) {
+    if (error instanceof Error) {
+      yield put(fetchCategoriesFailed(error.message))
+    }
+  }
+}
+
+export function* onFetchCategories() {
+  yield takeLatest(fetchCategoriesStart.type, fetchCategoriesAsync)
+}
+
+export function* categoriesSaga() {
+  yield all([call(onFetchCategories)])
+}
+
 const initialState: ICategoriesState = {
   categoriesMap: [],
   isLoading: false,
   error: '',
 }
-
-export const fetchCategories = createAsyncThunk(
-  'category/fetchCategories',
-  async (_, { rejectWithValue, dispatch }) => {
-    try {
-      dispatch(fetchCategoriesStart())
-      const categoryMap = await getCategoriesAndDocuments()
-      dispatch(fetchCategoriesSuccess(categoryMap))
-    } catch (error) {
-      if (error instanceof Error) {
-        dispatch(fetchCategoriesFailed(error.message))
-        return rejectWithValue(error.message)
-      }
-    }
-  }
-)
 
 export const categorySlice = createSlice({
   name: 'category',
@@ -49,29 +54,6 @@ export const categorySlice = createSlice({
       state.error = action.payload
     },
   },
-  // Usage pattern extraReducers with builder
-
-  // extraReducers: (builder) => {
-  //   builder
-  //     .addCase(fetchCategories.pending, (state) => {
-  //       state.isLoading = true
-  //     })
-  //     .addCase(
-  //       fetchCategories.fulfilled,
-  //       (state, action: PayloadAction<any, string>) => {
-  //         state.isLoading = false
-  //         state.error = ''
-  //         state.categoriesMap = action.payload
-  //       }
-  //     )
-  //     .addCase(
-  //       fetchCategories.rejected,
-  //       (state, action: PayloadAction<any, string>) => {
-  //         state.isLoading = false
-  //         state.error = action.payload
-  //       }
-  //     )
-  // },
 })
 
 export const {

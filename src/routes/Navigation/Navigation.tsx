@@ -17,7 +17,7 @@ import CartDropdown from '../../components/CartDropdown/CartDropdown'
 import Footer from '../Footer/Footer'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { setCurrentUser } from '../../store/reducers/userSlice'
-import { fetchCategories } from '../../store/reducers/categorySlice'
+import { fetchCategoriesStart } from '../../store/reducers/categorySlice'
 
 const Navigation = () => {
   const { currentUser } = useAppSelector((state) => state.user)
@@ -39,7 +39,7 @@ const Navigation = () => {
   }, [dispatch])
 
   useEffect(() => {
-    dispatch(fetchCategories())
+    dispatch(fetchCategoriesStart())
   }, [dispatch])
 
   return (
